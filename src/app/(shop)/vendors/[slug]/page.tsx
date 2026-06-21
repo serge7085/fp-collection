@@ -66,15 +66,14 @@ export default async function VendorDetailPage({
   return (
     <div className="max-w-7xl mx-auto px-5 sm:px-8 py-12">
       <nav className="text-[0.65rem] text-bone/35 mb-8 flex gap-2">
-        <Link href="/" className="hover:text-bone/60">Accueil</Link>
+        <Link href="/">Accueil</Link>
         <span>/</span>
-        <Link href="/vendors" className="hover:text-bone/60">Vendeurs</Link>
+        <Link href="/vendors">Vendeurs</Link>
       </nav>
 
       <div className="flex flex-col sm:flex-row items-center sm:items-start gap-6 mb-14 text-center sm:text-left">
         <div className="w-24 h-24 rounded-full bg-ink2 overflow-hidden shrink-0">
           {vendor.photo_url ? (
-            // eslint-disable-next-line @next/next/no-img-element
             <img src={vendor.photo_url} alt="" className="w-full h-full object-cover" />
           ) : (
             <div className="w-full h-full flex items-center justify-center text-bone/20 text-2xl font-serif">
