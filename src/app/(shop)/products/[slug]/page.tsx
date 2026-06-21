@@ -221,7 +221,7 @@ export default async function ProductDetailPage({
           <h2 className="font-serif text-2xl font-normal mb-8 text-center">
             Produits <em className="text-gold not-italic">similaires</em>
           </h2>
-          <div className="grid [grid-template-columns:repeat(auto-fill,minmax(200px,1fr))] gap-px bg-bone/10">
+          <div className="grid [grid-template-columns:repeat(auto-fill,minmax(200px,280px))] gap-px bg-bone/10">
             {similarProducts.map((p) => (
               <ProductCard
                 key={p.id}

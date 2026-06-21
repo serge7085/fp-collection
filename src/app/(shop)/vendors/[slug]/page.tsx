@@ -105,7 +105,7 @@ export default async function VendorDetailPage({
       </h2>
 
       {products && products.length > 0 ? (
-        <div className="grid [grid-template-columns:repeat(auto-fill,minmax(200px,1fr))] gap-px bg-bone/10">
+        <div className="grid [grid-template-columns:repeat(auto-fill,minmax(200px,280px))] gap-px bg-bone/10">
           {products.map((p) => (
             <ProductCard
               key={p.id}

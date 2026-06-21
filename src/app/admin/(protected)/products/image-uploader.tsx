@@ -331,7 +331,7 @@ export default function ImageUploader({
           onDragEnd={handleDragEnd}
         >
           <SortableContext items={images.map((i) => i.id)} strategy={rectSortingStrategy}>
-            <div className="mt-5 grid [grid-template-columns:repeat(auto-fill,minmax(120px,1fr))] gap-3">
+            <div className="mt-5 grid [grid-template-columns:repeat(auto-fill,minmax(120px,150px))] gap-3">
               {images.map((image) => (
                 <SortableImage
                   key={image.id}
