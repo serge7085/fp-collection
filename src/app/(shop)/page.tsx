@@ -137,7 +137,7 @@ export default async function HomePage() {
               Pièces <em className="text-gold not-italic">d&apos;Exception</em>
             </h2>
           </div>
-          <div className="grid grid-cols-2 lg:grid-cols-4 gap-px bg-bone/10">
+          <div className="grid [grid-template-columns:repeat(auto-fill,minmax(200px,1fr))] gap-px bg-bone/10">
             {featuredProducts.map((p) => (
               <ProductCard
                 key={p.id}
