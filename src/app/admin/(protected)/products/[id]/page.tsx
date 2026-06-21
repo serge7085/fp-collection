@@ -3,6 +3,7 @@ import { notFound } from "next/navigation";
 import { createClient } from "@/lib/supabase/server";
 import ProductForm from "../product-form";
 import ImageUploader from "../image-uploader";
+import ProductVideoManager from "../video-manager";
 
 export const metadata = {
   title: "Modifier le produit",
@@ -17,13 +18,18 @@ export default async function EditProductPage({
   const { id } = await params;
   const supabase = await createClient();
 
-  const [{ data: product }, { data: categories }, { data: vendors }, { data: images }] =
+  const [{ data: product }, { data: categories }, { data: vendors }, { data: images }, { data: videos }] =
     await Promise.all([
       supabase.from("products").select("*").eq("id", id).single(),
       supabase.from("categories").select("*").order("display_order"),
       supabase.from("vendors").select("*").order("name"),
       supabase
         .from("product_images")
+        .select("*")
+        .eq("product_id", id)
+        .order("display_order"),
+      supabase
+        .from("product_videos")
         .select("*")
         .eq("product_id", id)
         .order("display_order"),
@@ -49,6 +55,13 @@ export default async function EditProductPage({
           Images du produit
         </h2>
         <ImageUploader productId={product.id} initialImages={images ?? []} />
+      </section>
+
+      <section className="mb-10">
+        <h2 className="text-[0.65rem] uppercase tracking-[0.15em] text-gold mb-4">
+          Vidéos du produit
+        </h2>
+        <ProductVideoManager productId={product.id} initialVideos={videos ?? []} />
       </section>
 
       <section>

@@ -168,6 +168,18 @@ export async function deleteProductAction(productId: string) {
       .remove(images.map((img) => img.storage_path));
   }
 
+  // Idem pour les vidéos, dans le bucket dédié.
+  const { data: videos } = await supabase
+    .from("product_videos")
+    .select("storage_path")
+    .eq("product_id", productId);
+
+  if (videos && videos.length > 0) {
+    await supabase.storage
+      .from("product-videos")
+      .remove(videos.map((v) => v.storage_path));
+  }
+
   const { error } = await supabase.from("products").delete().eq("id", productId);
 
   if (error) {
@@ -353,6 +365,55 @@ export async function reorderProductImagesAction(
   );
 
   await Promise.all(updates);
+  revalidatePath(`/admin/products/${productId}`);
+  return { success: true };
+}
+
+// ----------------------------------------------------------------------------
+// Vidéos produit
+// ----------------------------------------------------------------------------
+
+export async function addProductVideoAction(
+  productId: string,
+  storagePath: string,
+  url: string,
+  displayOrder: number
+) {
+  const supabase = await createClient();
+
+  const { error } = await supabase.from("product_videos").insert({
+    product_id: productId,
+    storage_path: storagePath,
+    url,
+    display_order: displayOrder,
+  });
+
+  if (error) {
+    return { error: "Impossible d'enregistrer la vidéo." };
+  }
+
+  revalidatePath(`/admin/products/${productId}`);
+  return { success: true };
+}
+
+export async function deleteProductVideoAction(
+  videoId: string,
+  storagePath: string,
+  productId: string
+) {
+  const supabase = await createClient();
+
+  await supabase.storage.from("product-videos").remove([storagePath]);
+
+  const { error } = await supabase
+    .from("product_videos")
+    .delete()
+    .eq("id", videoId);
+
+  if (error) {
+    return { error: "Impossible de supprimer la vidéo." };
+  }
+
   revalidatePath(`/admin/products/${productId}`);
   return { success: true };
 }

@@ -90,6 +90,8 @@ export interface Database {
           tiktok_url: string | null;
           instagram_url: string | null;
           facebook_url: string | null;
+          video_url: string | null;
+          video_storage_path: string | null;
           is_active: boolean;
           created_at: string;
           updated_at: string;
@@ -105,6 +107,8 @@ export interface Database {
           tiktok_url?: string | null;
           instagram_url?: string | null;
           facebook_url?: string | null;
+          video_url?: string | null;
+          video_storage_path?: string | null;
           is_active?: boolean;
         };
         Update: Partial<{
@@ -117,6 +121,8 @@ export interface Database {
           tiktok_url: string | null;
           instagram_url: string | null;
           facebook_url: string | null;
+          video_url: string | null;
+          video_storage_path: string | null;
           is_active: boolean;
         }>;
         Relationships: [];
@@ -200,6 +206,29 @@ export interface Database {
         }>;
         Relationships: [];
       };
+      product_videos: {
+        Row: {
+          id: string;
+          product_id: string;
+          storage_path: string;
+          url: string;
+          display_order: number;
+          created_at: string;
+        };
+        Insert: {
+          id?: string;
+          product_id: string;
+          storage_path: string;
+          url: string;
+          display_order?: number;
+        };
+        Update: Partial<{
+          storage_path: string;
+          url: string;
+          display_order: number;
+        }>;
+        Relationships: [];
+      };
       settings: {
         Row: {
           id: boolean;
@@ -271,6 +300,7 @@ export type Category = Database["public"]["Tables"]["categories"]["Row"];
 export type Vendor = Database["public"]["Tables"]["vendors"]["Row"];
 export type Product = Database["public"]["Tables"]["products"]["Row"];
 export type ProductImage = Database["public"]["Tables"]["product_images"]["Row"];
+export type ProductVideo = Database["public"]["Tables"]["product_videos"]["Row"];
 export type Settings = Database["public"]["Tables"]["settings"]["Row"];
 
 export type ProductWithRelations = Product & {

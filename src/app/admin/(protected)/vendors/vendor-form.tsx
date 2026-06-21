@@ -4,6 +4,7 @@ import { useActionState } from "react";
 import { useFormStatus } from "react-dom";
 import { createVendorAction, updateVendorAction, type VendorActionState } from "./actions";
 import VendorPhotoUpload from "./photo-upload";
+import VideoUpload from "@/components/admin/video-upload";
 import type { Vendor } from "@/lib/database.types";
 
 const initialState: VendorActionState = {};
@@ -61,6 +62,15 @@ export default function VendorForm({ vendor }: { vendor?: Vendor }) {
 
       <Field label="Photo">
         <VendorPhotoUpload initialUrl={vendor?.photo_url} />
+      </Field>
+
+      <Field label="Vidéo de présentation (optionnel)">
+        <VideoUpload
+          initialUrl={vendor?.video_url}
+          urlFieldName="videoUrl"
+          pathFieldName="videoStoragePath"
+          folder="vendors"
+        />
       </Field>
 
       <Field label="Nom du vendeur" error={state.fieldErrors?.name}>

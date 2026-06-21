@@ -100,6 +100,16 @@ export default async function VendorDetailPage({
         </div>
       </div>
 
+      {vendor.video_url && (
+        <div className="mb-14 max-w-2xl">
+          <video
+            src={vendor.video_url}
+            controls
+            className="w-full aspect-video bg-ink2 border border-bone/10"
+          />
+        </div>
+      )}
+
       <h2 className="text-[0.65rem] uppercase tracking-[0.15em] text-bone/40 mb-6">
         Produits ({products?.length ?? 0})
       </h2>

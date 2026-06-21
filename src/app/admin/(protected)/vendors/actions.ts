@@ -59,6 +59,8 @@ export async function createVendorAction(
   const supabase = await createClient();
   const slug = await ensureUniqueVendorSlug(supabase, slugify(parsed.data.name));
   const photoUrl = String(formData.get("photoUrl") ?? "") || null;
+  const videoUrl = String(formData.get("videoUrl") ?? "") || null;
+  const videoStoragePath = String(formData.get("videoStoragePath") ?? "") || null;
 
   const { error } = await supabase.from("vendors").insert({
     name: parsed.data.name,
@@ -70,6 +72,8 @@ export async function createVendorAction(
     tiktok_url: parsed.data.tiktokUrl || null,
     instagram_url: parsed.data.instagramUrl || null,
     facebook_url: parsed.data.facebookUrl || null,
+    video_url: videoUrl,
+    video_storage_path: videoStoragePath,
     is_active: parsed.data.isActive ?? true,
   });
 
@@ -90,6 +94,25 @@ export async function updateVendorAction(
   const supabase = await createClient();
   const slug = await ensureUniqueVendorSlug(supabase, slugify(parsed.data.name), vendorId);
   const photoUrl = String(formData.get("photoUrl") ?? "") || null;
+  const videoUrl = String(formData.get("videoUrl") ?? "") || null;
+  const videoStoragePath = String(formData.get("videoStoragePath") ?? "") || null;
+
+  // Si la vidéo a été retirée ou remplacée, on supprime l'ancien fichier
+  // du bucket pour ne pas laisser de fichiers orphelins.
+  const { data: existing } = await supabase
+    .from("vendors")
+    .select("video_storage_path")
+    .eq("id", vendorId)
+    .single();
+
+  if (
+    existing?.video_storage_path &&
+    existing.video_storage_path !== videoStoragePath
+  ) {
+    await supabase.storage
+      .from("product-videos")
+      .remove([existing.video_storage_path]);
+  }
 
   const { error } = await supabase
     .from("vendors")
@@ -103,6 +126,8 @@ export async function updateVendorAction(
       tiktok_url: parsed.data.tiktokUrl || null,
       instagram_url: parsed.data.instagramUrl || null,
       facebook_url: parsed.data.facebookUrl || null,
+      video_url: videoUrl,
+      video_storage_path: videoStoragePath,
       is_active: parsed.data.isActive ?? true,
     })
     .eq("id", vendorId);
@@ -115,6 +140,17 @@ export async function updateVendorAction(
 
 export async function deleteVendorAction(vendorId: string) {
   const supabase = await createClient();
+
+  const { data: vendor } = await supabase
+    .from("vendors")
+    .select("video_storage_path")
+    .eq("id", vendorId)
+    .single();
+
+  if (vendor?.video_storage_path) {
+    await supabase.storage.from("product-videos").remove([vendor.video_storage_path]);
+  }
+
   const { error } = await supabase.from("vendors").delete().eq("id", vendorId);
   if (error) return { error: "Impossible de supprimer le vendeur." };
   revalidatePath("/admin/vendors");

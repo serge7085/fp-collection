@@ -32,6 +32,7 @@ type ProductDetail = {
     whatsapp: string | null;
   } | null;
   product_images: { url: string; is_primary: boolean }[];
+  product_videos: { url: string }[];
 };
 
 async function getProduct(slug: string) {
@@ -39,7 +40,7 @@ async function getProduct(slug: string) {
   const { data } = await supabase
     .from("products")
     .select(
-      "id, name, slug, description, reference, price, promo_price, stock, category_id, vendor_id, meta_title, meta_description, category:categories(name, slug), vendor:vendors(id, name, slug, photo_url, whatsapp), product_images(url, is_primary)"
+      "id, name, slug, description, reference, price, promo_price, stock, category_id, vendor_id, meta_title, meta_description, category:categories(name, slug), vendor:vendors(id, name, slug, photo_url, whatsapp), product_images(url, is_primary), product_videos(url)"
     )
     .eq("slug", slug)
     .eq("status", "active")
@@ -139,7 +140,11 @@ export default async function ProductDetailPage({
       </nav>
 
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-12">
-        <ProductGallery images={product.product_images ?? []} productName={product.name} />
+        <ProductGallery
+          images={product.product_images ?? []}
+          videos={product.product_videos ?? []}
+          productName={product.name}
+        />
 
         <div>
           {product.category && (
