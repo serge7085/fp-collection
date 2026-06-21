@@ -106,7 +106,7 @@ export default async function HomePage() {
               Collections <em className="text-gold not-italic">Signature</em>
             </h2>
           </div>
-          <div className="grid [grid-template-columns:repeat(auto-fill,minmax(220px,300px))] gap-px bg-bone/10">
+          <div className="grid [grid-template-columns:repeat(auto-fit,minmax(220px,300px))] gap-px bg-bone/10">
             {categories.map((c) => (
               <Link
                 key={c.id}
@@ -137,7 +137,7 @@ export default async function HomePage() {
               Pièces <em className="text-gold not-italic">d&apos;Exception</em>
             </h2>
           </div>
-          <div className="grid [grid-template-columns:repeat(auto-fill,minmax(200px,280px))] gap-px bg-bone/10">
+          <div className="grid [grid-template-columns:repeat(auto-fit,minmax(200px,280px))] gap-px bg-bone/10">
             {featuredProducts.map((p) => (
               <ProductCard
                 key={p.id}
