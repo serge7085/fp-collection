@@ -26,7 +26,7 @@ export default async function VendorsPage() {
       </div>
 
       {vendors && vendors.length > 0 ? (
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-px bg-bone/10">
+        <div className="grid [grid-template-columns:repeat(auto-fill,minmax(240px,1fr))] gap-px bg-bone/10">
           {vendors.map((v) => (
             <Link
               key={v.id}

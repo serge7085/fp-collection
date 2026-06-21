@@ -1,4 +1,4 @@
-tsximport Link from "next/link";
+import Link from "next/link";
 import { createClient } from "@/lib/supabase/server";
 import ProductCard from "@/components/shop/product-card";
 

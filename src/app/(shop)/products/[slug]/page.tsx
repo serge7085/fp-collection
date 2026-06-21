@@ -101,7 +101,7 @@ export default async function ProductDetailPage({
     .eq("category_id", product.category_id ?? "")
     .neq("id", product.id)
     .limit(4)
-    .returns
+    .returns<
       {
         id: string;
         name: string;
@@ -175,7 +175,7 @@ export default async function ProductDetailPage({
             </p>
           )}
 
-          
+          <a
             href={productWhatsappUrl}
             target="_blank"
             rel="noopener noreferrer"

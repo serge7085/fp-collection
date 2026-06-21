@@ -106,7 +106,7 @@ export default async function HomePage() {
               Collections <em className="text-gold not-italic">Signature</em>
             </h2>
           </div>
-          <div className="grid grid-cols-2 lg:grid-cols-4 gap-px bg-bone/10">
+          <div className="grid [grid-template-columns:repeat(auto-fill,minmax(220px,1fr))] gap-px bg-bone/10">
             {categories.map((c) => (
               <Link
                 key={c.id}
