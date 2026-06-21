@@ -101,7 +101,7 @@ export default async function ProductDetailPage({
     .eq("category_id", product.category_id ?? "")
     .neq("id", product.id)
     .limit(4)
-    .returns<
+    .returns
       {
         id: string;
         name: string;
@@ -175,7 +175,7 @@ export default async function ProductDetailPage({
             </p>
           )}
 
-          <a
+          
             href={productWhatsappUrl}
             target="_blank"
             rel="noopener noreferrer"
@@ -221,7 +221,7 @@ export default async function ProductDetailPage({
           <h2 className="font-serif text-2xl font-normal mb-8 text-center">
             Produits <em className="text-gold not-italic">similaires</em>
           </h2>
-          <div className="grid grid-cols-2 sm:grid-cols-4 gap-px bg-bone/10">
+          <div className="grid [grid-template-columns:repeat(auto-fill,minmax(200px,1fr))] gap-px bg-bone/10">
             {similarProducts.map((p) => (
               <ProductCard
                 key={p.id}
