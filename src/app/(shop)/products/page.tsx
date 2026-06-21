@@ -1,4 +1,4 @@
-import Link from "next/link";
+tsximport Link from "next/link";
 import { createClient } from "@/lib/supabase/server";
 import ProductCard from "@/components/shop/product-card";
 
@@ -213,7 +213,7 @@ export default async function ProductsPage({
           )}
 
           {products && products.length > 0 ? (
-            <div className="grid grid-cols-2 sm:grid-cols-3 gap-px bg-bone/10">
+            <div className="grid [grid-template-columns:repeat(auto-fill,minmax(200px,1fr))] gap-px bg-bone/10">
               {products.map((p) => (
                 <ProductCard
                   key={p.id}
